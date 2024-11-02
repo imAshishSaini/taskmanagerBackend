@@ -2,7 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 const bodyParser = require('body-parser')
-const {incomingRequestLogger} = require('./middleware/index')
+// const {incomingRequestLogger} = require('./middleware/index')
 const userRouter = require('./routes/user')
 const taskRouter = require('./routes/task')
 
@@ -14,7 +14,7 @@ app.use(cors())
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(incomingRequestLogger)
+// app.use(incomingRequestLogger)
 
 app.use('/api/user', userRouter)
 app.use('/api/task', taskRouter)
