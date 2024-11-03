@@ -18,11 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/api/user', userRouter)
 app.use('/api/task', taskRouter) 
 
-mongoose.connect(process.env.MONGOOSE_URI_STRING, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    ssl: true,
-  })
+mongoose.connect(process.env.MONGOOSE_URI_STRING, {})
   .then(() => console.log('Connected to database'))
   .catch((err) => console.log('Error connecting to database', err));
 
