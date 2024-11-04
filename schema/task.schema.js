@@ -44,6 +44,10 @@ const taskSchema = new Schema({
         type: Date,
         default: Date.now,
     },
+    shareId: {
+        type: String,
+        unique: true,
+    },
 })
 
 taskSchema.path('checklist').validate(function (value) {

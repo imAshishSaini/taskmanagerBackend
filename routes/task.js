@@ -4,6 +4,7 @@ const { Task } = require('../schema/task.schema')
 const authMiddleware = require('../middleware/auth')
 const { User } = require('../schema/user.schema')
 const moment = require('moment')
+const crypto = require('crypto')
 
 router.post('/create', authMiddleware, async (req, res) => {
     try {
@@ -34,6 +35,7 @@ router.post('/create', authMiddleware, async (req, res) => {
             dueDate,
             taskStatus: 'todo',
             creator: req.user._id,
+            shareId: crypto.randomUUID(16).toString('hex')
         })
 
         await newTask.save()
@@ -144,5 +146,21 @@ router.get('/analytics', authMiddleware, async (req, res) => {
         res.status(500).json({ message: 'Failed to fetch analytics' })
     }
 })
+
+router.get('/public/:shareId', async (req, res) => {
+    try {
+      const { shareId } = req.params
+      const task = await Task.findOne({ shareId }).populate('assignees')
+      
+      if (!task) {
+        return res.status(404).json({ message: 'Task not found' })
+      }
+  
+      res.status(200).json({ message: 'Task fetched successfully', task })
+    } catch (error) {
+      res.status(500).json({ message: 'Failed to fetch task', error })
+    }
+  })
+  
 
 module.exports = router
