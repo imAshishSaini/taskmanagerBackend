@@ -43,7 +43,7 @@ router.post('/create', authMiddleware, async (req, res) => {
 
         res.status(201).json({ message: 'Task created successfully', task: newTask })
     } catch (error) {
-        console.error('Error during task creation:', error)
+        console.error('Error during task creation:', error.stack||error.message)
         res.status(400).json({ message: 'Task creation failed', error: error.message })
     }
 })
