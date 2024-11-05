@@ -8,6 +8,7 @@ const crypto = require('crypto')
 
 router.post('/create', authMiddleware, async (req, res) => {
     try {
+        console.log('Request Body:', req.body)
         const { title, priority, assignees, checklist, dueDate } = req.body
         console.log('Request Body:', req.body)
 
@@ -35,7 +36,7 @@ router.post('/create', authMiddleware, async (req, res) => {
             dueDate,
             taskStatus: 'todo',
             creator: req.user._id,
-            shareId: crypto.randomUUID(16).toString('hex')
+            shareId: crypto.randomBytes(16).toString('hex')
         })
 
         await newTask.save()
