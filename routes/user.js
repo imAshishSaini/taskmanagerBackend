@@ -31,15 +31,17 @@ router.post('/login', async (req, res) => {
         const { email, password } = req.body
         console.log(email, password)
         const user = await User.findOne({ email })
-        console.log(user)
         if (!user) {
             return res.status(400).send({ message: 'Invalid credentials' })
         }
         const isPasswordValid = await bcrypt.compare(password, user.password)
+        console.log(isPasswordValid)
         if (!isPasswordValid) {
             return res.status(400).send({ message: 'Invalid credentials' })
         }
+        console.log("jdkf")
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' })
+        // console.log(token)
         res.status(200).json({ token })
     } catch (error) {
         console.error('Error during login:', error)
